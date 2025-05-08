@@ -8,11 +8,11 @@ import '../../Model/product_model.dart';
 import '../../utils/colors.dart';
 import '../screens/Home/home_page.dart';
 
-class SearchBar extends StatefulWidget {
+class CustomSearchBar  extends StatefulWidget {
   final List<Product> productList;
   final void Function(List<Product>) onFilter;
 
-  const SearchBar({
+  const CustomSearchBar ({
     Key? key,
     required this.productList,
     required this.onFilter,
@@ -22,7 +22,7 @@ class SearchBar extends StatefulWidget {
   _SearchBarState createState() => _SearchBarState();
 }
 
-class _SearchBarState extends State<SearchBar> {
+class _SearchBarState extends State<CustomSearchBar> {
   final TextEditingController _searchController = TextEditingController();
   List<Product> _filteredProductList = [];
 
@@ -41,9 +41,9 @@ class _SearchBarState extends State<SearchBar> {
           hintText: "Search items...",
           filled: true,
           fillColor: Colors.white,
-          // border: outlineInputBorder,
-          // enabledBorder: outlineInputBorder,
-          // focusedBorder: outlineInputBorder,
+          border: outlineInputBorder,
+          enabledBorder: outlineInputBorder,
+          focusedBorder: outlineInputBorder,
           contentPadding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
           prefixIcon: const Icon(Icons.search, color: Colors.black),
           suffixIcon: Padding(
@@ -74,13 +74,13 @@ class _SearchBarState extends State<SearchBar> {
             ),
           ),
         ),
-        onChanged: (value) {
-          _filteredProductList = widget.productList
-              .where((product) =>
-                  product.name.toLowerCase().contains(value.toLowerCase()))
-              .toList();
-          widget.onFilter(_filteredProductList);
-        },
+       onChanged: (value) {
+  _filteredProductList = widget.productList
+      .where((product) => product.name.toLowerCase().contains(value.toLowerCase()))
+      .toList();
+  widget.onFilter(_filteredProductList);
+},
+
       ),
     );
   }

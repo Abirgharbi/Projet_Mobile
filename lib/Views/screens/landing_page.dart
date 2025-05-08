@@ -6,6 +6,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:projet_ecommerce_meuble/ViewModel/order_controller.dart';
 import 'package:projet_ecommerce_meuble/ViewModel/product_controller.dart';
 import 'package:projet_ecommerce_meuble/ViewModel/signup_controller.dart';
+import 'package:projet_ecommerce_meuble/Views/screens/auth/login_page.dart';
 import 'package:projet_ecommerce_meuble/Views/screens/checkOut/cart_screen.dart';
 import 'package:projet_ecommerce_meuble/Views/screens/profil_page/profil_page.dart';
 
@@ -55,7 +56,7 @@ class _LandingPageState extends State<LandingPage> {
     const HomeScreen(),
     CartScreen(),
     const favorite(),
-    ProfileScreen(),
+   ProfileScreen()
   ];
   @override
   Widget build(BuildContext context) {
@@ -72,11 +73,60 @@ class _LandingPageState extends State<LandingPage> {
           },
           activeColor: MyColors.btnBorderColor,
           tabBackgroundColor: Colors.grey.shade100,
-          tabs: [
-            const GButton(icon: Icons.home, text: "Home"),
-            GButton(icon: Icons.shopping_cart_outlined, text: "Cart"),
-            GButton(icon: Icons.shopping_cart_outlined, text: "Cart"),
-            const GButton(icon: Icons.person_outline, text: "Profile"),
+           tabs: [
+            const GButton(
+              icon: Icons.home,
+              text: "Home",
+            ),
+            GButton(
+                icon: Icons.shopping_cart_outlined,
+                text: "Cart",
+                leading: Obx(
+                  () => orderController.productCarts.isEmpty
+                      ? const Icon(Icons.shopping_cart_outlined,
+                          color: MyColors.btnBorderColor)
+                      : badges.Badge(
+                          position: badges.BadgePosition.topStart(
+                              top: -12, start: -10),
+                          badgeContent: Text(
+                            orderController.productCarts.length.toString(),
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                          badgeStyle: badges.BadgeStyle(
+                            shape: badges.BadgeShape.circle,
+                            badgeColor: Colors.red,
+                            padding: const EdgeInsets.all(5),
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                          child: const Icon(Icons.shopping_cart_outlined,
+                              color: MyColors.btnBorderColor),
+                        ),
+                )),
+            GButton(
+                icon: Icons.favorite_border_outlined,
+                text: "Liked",
+                leading: Obx(
+                  () => productController.wishlist.isEmpty
+                      ? const Icon(Icons.favorite_border_outlined,
+                          color: MyColors.btnBorderColor)
+                      : badges.Badge(
+                          position: badges.BadgePosition.topStart(
+                              top: -12, start: -10),
+                          badgeContent: Text(
+                            productController.wishlist.length.toString(),
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                          badgeStyle: badges.BadgeStyle(
+                            shape: badges.BadgeShape.circle,
+                            badgeColor: Colors.red,
+                            padding: const EdgeInsets.all(5),
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                          child: const Icon(Icons.favorite_border_outlined,
+                              color: MyColors.btnBorderColor),
+                        ),
+                )),
+            const GButton(icon: Icons.person_outline, text: "Profile")
           ],
         ),
       ),

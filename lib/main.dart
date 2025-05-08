@@ -16,13 +16,14 @@ import 'Views/screens/profil_page/profil_page.dart';
 
 import 'utils/text_theme.dart';
 import 'Views/screens/profil_page/AddressScreen.dart';
+import 'deep_linking.dart';  // Import the deep linking module
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await sharedPrefs.init();
   await GetStorage.init();
-
+  DeepLinking.initDeepLinking();
   runApp(const MyApp());
 }
 
