@@ -12,31 +12,52 @@ class VerifyTokenController extends GetxController {
 
   Future<void> verifyToken(String token) async {
     try {
-      isLoading.value = true;
-      isError.value = false;
+      // Check if the token is empty or invalid
+      if (token == null || token.isEmpty) {
+        errorMessage.value = 'Invalid token!';
+        isError.value = true;
+        Get.offAllNamed('/login');
+        return;
+      }
 
+      // Start loading state
+      isLoading.value = true;
+      isError.value = false; // Reset error state before starting the request.
+
+      // Call the API to verify the token
       final response = await NetworkHandler.get(
         'user/verifyMagicLink?token=$token',
       );
+      print('Response: $response'); // Debug print
       final data = jsonDecode(response);
+      print('Decoded Data: $data'); // Debug print
 
-      if (data['success'] == true && data['token'] != null) {
+      // Check if the response contains success and token
+      if (data != null && data['success'] == true) {
         isSuccess.value = true;
-
         final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('auth_token', data['token']);
 
+        // Save token and customer info to SharedPreferences
+        await prefs.setString('token', data['token']);
+        await prefs.setString('customerName', data['customer']['name']);
+        await prefs.setString('customerEmail', data['customer']['email']);
+        await prefs.setString('customerId', data['customer']['_id']);
+        // Navigate to the landing page after a slight delay
         await Future.delayed(const Duration(seconds: 1));
-        Get.toNamed('/landing');
+        Get.offAllNamed('/landing');
       } else {
+        // Handle invalid token
         isSuccess.value = false;
         errorMessage.value = 'Invalid token!';
         isError.value = true;
+        Get.offAllNamed('/login');
       }
     } catch (e) {
+      // Handle unexpected errors
+      print('Error: $e'); // Debug print
       isError.value = true;
       errorMessage.value = 'Server error occurred!';
-      print('VerifyTokenController error: $e');
+      Get.offAllNamed('/login');
     } finally {
       isLoading.value = false;
     }

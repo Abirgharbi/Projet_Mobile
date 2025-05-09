@@ -83,7 +83,8 @@ class NetworkHandler {
     // String host = "http://192.168.1.158:4002/";
     // String host = "http://10.0.2.2:4002/";
     // String host = "http://192.168.123.145:4002/";
-    String host = "http://localhost:4002/";
+    // String host = "http://192.168.1.17:4002/";
+    String host = "http://192.168.1.17:4002/";
     final apiPath = host + endpoint;
     return Uri.parse(apiPath);
   }

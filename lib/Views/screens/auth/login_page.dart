@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../ViewModel/login_controller.dart';
 import '../../../utils/colors.dart';
@@ -22,6 +23,25 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
+  String? _token; // Token to be displayed
+
+  @override
+  void initState() {
+    super.initState();
+    _loadToken(); // Load token when the page is created
+  }
+
+  // Load token from SharedPreferences
+  _loadToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString(
+      'token',
+    ); // Assuming 'token' is the key used
+    setState(() {
+      _token = token; // Update the UI with the token
+    });
+  }
+
   String? validateValue(String? value) {
     if (value == null || value.isEmpty) {
       isEnabled = false;
@@ -35,7 +55,6 @@ class LoginPageState extends State<LoginPage> {
     }
   }
 
-  LoginController loginController = Get.put(LoginController());
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -105,6 +124,7 @@ class LoginPageState extends State<LoginPage> {
                               isEnabled == true
                                   ? () async {
                                     await loginController.login();
+                                    _loadToken(); // Reload the token after login
                                   }
                                   : null,
                           child:
@@ -115,7 +135,7 @@ class LoginPageState extends State<LoginPage> {
                                     ),
                                   )
                                   : const Text(
-                                    "LogIn",
+                                    "Log In",
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
@@ -251,7 +271,7 @@ class TopImage extends StatelessWidget {
     return SizedBox(
       width: gWidth,
       height: gHeight / 2.85,
-      child: Image.asset("assets/images/logofinal.png"),
+      child: Image.asset("assets/images/logo_KOA.png"),
     ).animate(delay: 1800.ms).fade(duration: 500.ms);
   }
 }

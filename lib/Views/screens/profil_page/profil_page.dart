@@ -1,11 +1,9 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:projet_ecommerce_meuble/Views/screens/profil_page/noLoggedIn_profilPage.dart';
 import 'package:projet_ecommerce_meuble/Views/screens/profil_page/order_history.dart';
 import 'package:projet_ecommerce_meuble/utils/shared_preferences.dart';
-import '../../../Model/service/network_handler.dart';
 import '../../../ViewModel/login_controller.dart';
 import '../../../ViewModel/signup_controller.dart';
 import '../../../utils/colors.dart';
@@ -21,6 +19,10 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   String token = '';
+  String customerName = '';
+  String customerEmail = '';
+  String customerImage = '';
+  bool isLoading = true; // To manage loading state
 
   @override
   void initState() {
@@ -31,8 +33,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   // This method checks if the token exists in SharedPreferences
   checkToken() async {
     String? updatedToken = await sharedPrefs.getPref('token');
+    String? updatedCustomerName = await sharedPrefs.getPref('customerName');
+    String? updatedCustomerEmail = await sharedPrefs.getPref('customerEmail');
+    String? updatedCustomerImage = await sharedPrefs.getPref('customerImage');
+
+    // Simulate a delay for the loading effect
+    await Future.delayed(const Duration(seconds: 2));
+
     setState(() {
       token = updatedToken ?? ''; // Set token to an empty string if null
+      customerName = updatedCustomerName ?? 'No name';
+      customerEmail = updatedCustomerEmail ?? 'No email';
+      customerImage = updatedCustomerImage ?? '';
+      isLoading = false; // Stop loading after the data is fetched
     });
   }
 
@@ -51,7 +64,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
       body:
-          token.isEmpty
+          isLoading
+              ? Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: const [
+                    CircularProgressIndicator(),
+                    SizedBox(height: 20),
+                    Text("Loading... Please wait."),
+                  ],
+                ),
+              )
+              : token.isEmpty
               ? const noLoggedIn_profilPage() // Show this if no token is found
               : SingleChildScrollView(
                 child: Container(
@@ -60,140 +84,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       Stack(
                         children: [
-                          FutureBuilder<String>(
-                            future: sharedPrefs.getPref('customerImage').then((value) => value ?? ''),
-                            builder: (
-                              BuildContext context,
-                              AsyncSnapshot<String> snapshot,
-                            ) {
-                              List<Widget> children;
-                              if (snapshot.hasData) {
-                                children = <Widget>[
-                                  SizedBox(
-                                    height: 120,
-                                    width: 120,
-                                    child: ClipOval(
-                                      child: SizedBox.fromSize(
-                                        size: const Size.fromRadius(
-                                          100,
-                                        ), // Image radius
-                                        child: Image.network(
-                                          '${snapshot.data}',
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
+                          customerImage.isNotEmpty
+                              ? SizedBox(
+                                height: 120,
+                                width: 120,
+                                child: ClipOval(
+                                  child: SizedBox.fromSize(
+                                    size: const Size.fromRadius(100),
+                                    child: Image.network(
+                                      customerImage,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
-                                ];
-                              } else if (snapshot.hasError) {
-                                children = <Widget>[Text('${snapshot.error}')];
-                              } else {
-                                children = const <Widget>[
-                                  SizedBox(
-                                    width: 60,
-                                    height: 60,
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 16),
-                                    child: Text('Awaiting result...'),
-                                  ),
-                                ];
-                              }
-                              return Center(child: Column(children: children));
-                            },
-                          ),
+                                ),
+                              )
+                              : const SizedBox.shrink(),
                         ],
                       ),
                       const SizedBox(height: 10),
-                      FutureBuilder<String>(
-                        future: sharedPrefs.getPref('customerName').then((value) => value ?? ''),,
-                        builder: (
-                          BuildContext context,
-                          AsyncSnapshot<String> snapshot,
-                        ) {
-                          List<Widget> children;
-                          if (snapshot.hasData) {
-                            children = <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(top: 16),
-                                child: Text(
-                                  '${snapshot.data}',
-                                  style:
-                                      Theme.of(context).textTheme.displayMedium,
-                                ),
-                              ),
-                            ];
-                          } else if (snapshot.hasError) {
-                            children = <Widget>[Text('${snapshot.error}')];
-                          } else {
-                            children = const <Widget>[
-                              SizedBox(
-                                width: 60,
-                                height: 60,
-                                child: CircularProgressIndicator(),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(top: 16),
-                                child: Text('Awaiting result...'),
-                              ),
-                            ];
-                          }
-                          return Center(child: Column(children: children));
-                        },
+                      Text(
+                        customerName,
+                        style: Theme.of(context).textTheme.displayMedium,
                       ),
-                      FutureBuilder<String>(
-                        future: sharedPrefs
-                            .getPref('customerEmail')
-                            .then(
-                              (value) => value ?? '',
-                            ), // Ensure it returns a non-null String
-                        builder: (
-                          BuildContext context,
-                          AsyncSnapshot<String> snapshot,
-                        ) {
-                          List<Widget> children;
-                          if (snapshot.hasData) {
-                            children = <Widget>[
-                              Text(
-                                '${snapshot.data}',
-                                style:
-                                    Theme.of(context).textTheme.headlineMedium,
-                              ),
-                            ];
-                          } else if (snapshot.hasError) {
-                            children = <Widget>[Text('${snapshot.error}')];
-                          } else {
-                            children = const <Widget>[
-                              SizedBox(
-                                width: 60,
-                                height: 60,
-                                child: CircularProgressIndicator(),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(top: 16),
-                                child: Text('Awaiting result...'),
-                              ),
-                            ];
-                          }
-                          return Center(child: Column(children: children));
-                        },
+                      Text(
+                        customerEmail,
+                        style: Theme.of(context).textTheme.headlineMedium,
                       ),
-                      const SizedBox(height: 20),
-                      // Display the token here if it's not empty
-                      token.isNotEmpty
-                          ? Text(
-                            'Token: $token',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          )
-                          : Container(),
                       const SizedBox(height: 20),
                       SizedBox(
                         width: 200,
                         height: 45,
                         child: ElevatedButton(
                           onPressed: () {
-                            // Get.to(() => EditProfileScreen());
+                            Get.to(() => EditProfileScreen());
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: MyColors.btnColor,

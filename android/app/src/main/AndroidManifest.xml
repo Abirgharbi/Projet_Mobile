@@ -2,7 +2,7 @@
 <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:label="projet_ecommerce_meuble"
+        android:label="KOA Home"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
