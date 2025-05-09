@@ -32,176 +32,172 @@ class SignUpState extends State<SignUp> {
             alignment: Alignment.center,
             child: SingleChildScrollView(
               child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Animation pour l'image
-                    Animate(
-                      effects: [FadeEffect(), SlideEffect()],
-                      child: const TopImage(),
-                    ),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Animation pour l'image
+                  Animate(
+                    effects: [FadeEffect(), SlideEffect()],
+                    child: const TopImage(),
+                  ),
 
-                    // Animation pour le texte "Sign Up"
-            Animate(
-                effects: [FadeEffect(delay: Duration(seconds: 1))], // Utilisation de Duration pour éviter l'ambiguïté
-                child: const LoginText(),
-              ),
+                  // Animation pour le texte "Sign Up"
+                  Animate(
+                    effects: [
+                      FadeEffect(delay: Duration(seconds: 1)),
+                    ], // Utilisation de Duration pour éviter l'ambiguïté
+                    child: const LoginText(),
+                  ),
 
-                    const SizedBox(height: 10),
+                  const SizedBox(height: 10),
 
-                    // Animation pour le champ de texte "Name"
-                    Animate(
-                      effects: [FadeEffect(), SlideEffect()],
-                      child: FormTextFiled(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            signUpController.validName.value = false;
-                            return "Field could not be Empty";
-                          } else {
-                            signUpController.validName.value = true;
-                            return null;
-                          }
-                        },
-                        controller: signUpController.nameEditingController,
-                        typeInput: TextInputType.text,
-                        prefIcon: Icon(
-                          Icons.person_2_outlined,
-                          color: MyColors.captionColor,
-                        ),
-                        sufIcon: null,
-                        label: "Name",
+                  // Animation pour le champ de texte "Name"
+                  Animate(
+                    effects: [FadeEffect(), SlideEffect()],
+                    child: FormTextFiled(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          signUpController.validName.value = false;
+                          return "Field could not be Empty";
+                        } else {
+                          signUpController.validName.value = true;
+                          return null;
+                        }
+                      },
+                      controller: signUpController.nameEditingController,
+                      typeInput: TextInputType.text,
+                      prefIcon: Icon(
+                        Icons.person_2_outlined,
+                        color: MyColors.captionColor,
                       ),
+                      sufIcon: null,
+                      label: "Name",
                     ),
-                    
-                    const SizedBox(height: 20),
-                    
-                    // Animation pour le champ "Email"
-                    Animate(
-                      effects: [FadeEffect(), SlideEffect()],
-                      child: FormTextFiled(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Field could not be Empty";
-                          } else if (!GetUtils.isEmail(value)) {
-                            signUpController.validEmail.value = false;
-                            return "Please Enter a Valid Email";
-                          } else {
-                            signUpController.validEmail.value = true;
-                            return null;
-                          }
-                        },
-                        controller: signUpController.emailEditingController,
-                        typeInput: TextInputType.emailAddress,
-                        prefIcon: Icon(
-                          Icons.email_outlined,
-                          color: MyColors.captionColor,
-                        ),
-                        sufIcon: null,
-                        label: "Email",
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // Animation pour le champ "Email"
+                  Animate(
+                    effects: [FadeEffect(), SlideEffect()],
+                    child: FormTextFiled(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Field could not be Empty";
+                        } else if (!GetUtils.isEmail(value)) {
+                          signUpController.validEmail.value = false;
+                          return "Please Enter a Valid Email";
+                        } else {
+                          signUpController.validEmail.value = true;
+                          return null;
+                        }
+                      },
+                      controller: signUpController.emailEditingController,
+                      typeInput: TextInputType.emailAddress,
+                      prefIcon: Icon(
+                        Icons.email_outlined,
+                        color: MyColors.captionColor,
                       ),
+                      sufIcon: null,
+                      label: "Email",
                     ),
-                    
-                    const SizedBox(height: 20),
-                    
-                    const checkBox(),
+                  ),
 
-                    const SizedBox(
-                      height: 25,
-                    ),
+                  const SizedBox(height: 20),
 
-                    // Animation pour le bouton de soumission
-                    Animate(
-                      effects: [FadeEffect(), SlideEffect()],
-                      child: Container(
-                        margin: const EdgeInsets.all(15),
-                        width: gWidth / 2,
-                        height: gHeight / 12,
-                        child: Obx(
-                          () {
-                            return ElevatedButton(
-                              style: signUpController.checkboxValue.value &&
+                  const checkBox(),
+
+                  const SizedBox(height: 25),
+
+                  // Animation pour le bouton de soumission
+                  Animate(
+                    effects: [FadeEffect(), SlideEffect()],
+                    child: Container(
+                      margin: const EdgeInsets.all(15),
+                      width: gWidth / 2,
+                      height: gHeight / 12,
+                      child: Obx(() {
+                        return ElevatedButton(
+                          style:
+                              signUpController.checkboxValue.value &&
                                       signUpController.validName.value &&
                                       signUpController.validEmail.value
                                   ? ElevatedButton.styleFrom(
-                                      fixedSize: const Size(50, 50),
-                                      backgroundColor: MyColors.btnColor,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                    )
-                                  : ElevatedButton.styleFrom(
-                                      fixedSize: const Size(50, 50),
-                                      backgroundColor:
-                                          MyColors.btnColor.withOpacity(0.7),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
+                                    fixedSize: const Size(50, 50),
+                                    backgroundColor: MyColors.btnColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
                                     ),
-                              onPressed: signUpController.checkboxValue.value &&
+                                  )
+                                  : ElevatedButton.styleFrom(
+                                    fixedSize: const Size(50, 50),
+                                    backgroundColor: MyColors.btnColor
+                                        .withOpacity(0.7),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  ),
+                          onPressed:
+                              signUpController.checkboxValue.value &&
                                       signUpController.validName.value &&
                                       signUpController.validEmail.value
                                   ? () async {
-                                      signUpController.signUp();
-                                    }
+                                    signUpController.signUp();
+                                  }
                                   : null,
-                              child: signUpController.isLogginIn.value
+                          child:
+                              signUpController.isLogginIn.value
                                   ? const Center(
-                                      child: CircularProgressIndicator(
-                                        color: Colors.white,
-                                      ),
-                                    )
-                                  : const Text(
-                                      "Sign Up",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
                                     ),
-                            );
-                          },
-                        ),
+                                  )
+                                  : const Text(
+                                    "Sign Up",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                        );
+                      }),
+                    ),
+                  ),
+
+                  const OrText(),
+
+                  const SizedBox(height: 10),
+
+                  // Animation pour les boutons des médias sociaux
+                  Animate(
+                    effects: [FadeEffect(), SlideEffect()],
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          MediaTile(
+                            imagePath: "assets/images/FacebookLogo.png",
+                            size: 30,
+                            onPress: () {
+                              signUpController.signUpWithFacebook();
+                            },
+                          ),
+                          const SizedBox(width: 20),
+                          MediaTile(
+                            imagePath: "assets/images/google.png",
+                            size: 30,
+                            onPress: () {
+                              signUpController.signUpWithGoogle();
+                            },
+                          ),
+                        ],
                       ),
                     ),
+                  ),
 
-                    const OrText(),
-
-                    const SizedBox(
-                      height: 10,
-                    ),
-
-                    // Animation pour les boutons des médias sociaux
-                    Animate(
-                      effects: [FadeEffect(), SlideEffect()],
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            MediaTile(
-                              imagePath: "assets/images/FacebookLogo.png",
-                              size: 30,
-                              onPress: () {
-                                signUpController.signUpWithFacebook();
-                              },
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            MediaTile(
-                              imagePath: "assets/images/google.png",
-                              size: 30,
-                              onPress: () {
-                                signUpController.signUpWithGoogle();
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const signinText()
-                  ]),
+                  const SizedBox(height: 10),
+                  const signinText(),
+                ],
+              ),
             ),
           ),
         ),
@@ -210,11 +206,8 @@ class SignUpState extends State<SignUp> {
   }
 }
 
-
 class signinText extends StatelessWidget {
-  const signinText({
-    Key? key,
-  }) : super(key: key);
+  const signinText({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -233,10 +226,7 @@ class signinText extends StatelessWidget {
             children: [
               const TextSpan(
                 text: "Already have an account? ",
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: 14,
-                ),
+                style: TextStyle(color: Colors.black54, fontSize: 14),
               ),
               TextSpan(
                 text: "Sign In",
@@ -254,12 +244,9 @@ class signinText extends StatelessWidget {
   }
 }
 
-
 // Login Text with Animation
 class LoginText extends StatelessWidget {
-  const LoginText({
-    super.key,
-  });
+  const LoginText({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -282,9 +269,7 @@ class LoginText extends StatelessWidget {
 
 // Or Text with Animation
 class OrText extends StatelessWidget {
-  const OrText({
-    Key? key,
-  }) : super(key: key);
+  const OrText({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -296,20 +281,12 @@ class OrText extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                width: 150,
-                height: 0.2,
-                color: MyColors.captionColor,
-              ),
+              Container(width: 150, height: 0.2, color: MyColors.captionColor),
               Text(
                 "  OR  ",
                 style: TextStyle(color: MyColors.captionColor, fontSize: 15),
               ),
-              Container(
-                width: 150,
-                height: 0.2,
-                color: MyColors.captionColor,
-              ),
+              Container(width: 150, height: 0.2, color: MyColors.captionColor),
             ],
           ),
         ),
@@ -339,45 +316,46 @@ class _checkBoxState extends State<checkBox> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Checkbox(
-                      activeColor: MyColors.btnBorderColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5)),
-                      value: signUpController.checkboxValue.value,
-                      onChanged: (value) {
-                        signUpController.checkboxValue.value = value!;
-                        state.didChange(value);
-                      }),
+                    activeColor: MyColors.btnBorderColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    value: signUpController.checkboxValue.value,
+                    onChanged: (value) {
+                      signUpController.checkboxValue.value = value!;
+                      state.didChange(value);
+                    },
+                  ),
                   RichText(
-                      text: const TextSpan(
-                    children: [
-                      TextSpan(
+                    text: const TextSpan(
+                      children: [
+                        TextSpan(
                           text: "BY continuing, I agree to the ",
-                          style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 12,
-                          )),
-                      TextSpan(
+                          style: TextStyle(color: Colors.black54, fontSize: 12),
+                        ),
+                        TextSpan(
                           text: " Terms of use ",
                           style: TextStyle(
                             color: MyColors.titleTextColor,
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
-                          )),
-                      TextSpan(
+                          ),
+                        ),
+                        TextSpan(
                           text: " & ",
-                          style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 12,
-                          )),
-                      TextSpan(
+                          style: TextStyle(color: Colors.black54, fontSize: 12),
+                        ),
+                        TextSpan(
                           text: " Privacy & Policy",
                           style: TextStyle(
                             color: MyColors.titleTextColor,
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
-                          )),
-                    ],
-                  )),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -390,9 +368,7 @@ class _checkBoxState extends State<checkBox> {
 
 // Top Image with Animation
 class TopImage extends StatelessWidget {
-  const TopImage({
-    super.key,
-  });
+  const TopImage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -400,11 +376,11 @@ class TopImage extends StatelessWidget {
       effects: [FadeEffect(), SlideEffect()],
       child: Container(
         padding: const EdgeInsets.only(bottom: 40),
-        child:SizedBox(
-        width: gWidth,
-        height: gHeight / 2.85,
-        child: Image.asset("assets/images/logofinal.png"),
-      ),
+        child: SizedBox(
+          width: gWidth,
+          height: gHeight / 2.85,
+          child: Image.asset("assets/images/logo_KOA.png"),
+        ),
       ),
     );
   }

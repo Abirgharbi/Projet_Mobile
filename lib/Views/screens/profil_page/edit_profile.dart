@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -41,13 +39,9 @@ class EditProfileScreen extends StatefulWidget {
   State<EditProfileScreen> createState() => EditProfileScreenState();
 }
 
-enum FileSource {
-  path,
-  bytes,
-}
+enum FileSource { path, bytes }
 
 typedef ProgressCallback = void Function(int count, int total);
-
 
 class DataTransmitNotifier {
   final String? path;
@@ -55,7 +49,8 @@ class DataTransmitNotifier {
   final notifier = ValueNotifier<double>(0);
 
   DataTransmitNotifier({this.path, ProgressCallback? progressCallback}) {
-    this.progressCallback = progressCallback ??
+    this.progressCallback =
+        progressCallback ??
         (count, total) {
           notifier.value = count.toDouble() / total.toDouble();
         };
@@ -80,140 +75,146 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            onPressed: () {
-              Get.back();
-            },
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: Colors.black,
-            ),
-          ),
-          title: Text(
-            "Edit Profile",
-            style: Theme.of(context).textTheme.displayMedium,
-          ),
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
         ),
-        body: SingleChildScrollView(
-          child: Container(
-              padding: const EdgeInsets.all(tDefaultSize),
-              child: Column(children: [
-                FutureBuilder<String>(
-                  future: sharedPrefs.getPref(
-                      'customerImage'), // a previously-obtained Future<String> or null
-                  builder:
-                      (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    List<Widget> children;
-                    if (snapshot.hasData) {
-                      children = <Widget>[
-                        SizedBox(
-                          height: 150,
-                          width: 150,
-                          child: Stack(
-                            children: [
-                              ClipOval(
-                                child: SizedBox.fromSize(
-                                  size: Size.fromRadius(100), // Image radius
-                                  child: dataImages.path != null
-                                      ? Image.file(
+        title: Text(
+          "Edit Profile",
+          style: Theme.of(context).textTheme.displayMedium,
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(tDefaultSize),
+          child: Column(
+            children: [
+              FutureBuilder<String>(
+                future: sharedPrefs.getPref(
+                  'customerImage',
+                ), // a previously-obtained Future<String> or null
+                builder: (
+                  BuildContext context,
+                  AsyncSnapshot<String> snapshot,
+                ) {
+                  List<Widget> children;
+                  if (snapshot.hasData) {
+                    children = <Widget>[
+                      SizedBox(
+                        height: 150,
+                        width: 150,
+                        child: Stack(
+                          children: [
+                            ClipOval(
+                              child: SizedBox.fromSize(
+                                size: Size.fromRadius(100), // Image radius
+                                child:
+                                    dataImages.path != null
+                                        ? Image.file(
                                           File(dataImages.path!),
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
+                                          height:
+                                              MediaQuery.of(
+                                                context,
+                                              ).size.width *
                                               0.75,
                                           scale: 1.0,
                                           fit: BoxFit.cover,
                                         )
-                                      : Image.network(
+                                        : Image.network(
                                           '${snapshot.data}',
                                           fit: BoxFit.cover,
                                         ),
-                                ),
                               ),
-                              Positioned(
-                                bottom: 0,
-                                right: 0,
-                                child: Container(
-                                  width: 35,
-                                  height: 35,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(100),
-                                      color: MyColors.btnBorderColor),
-                                  child: IconButton(
-                                    icon: const Icon(
-                                      LineAwesomeIcons.camera,
-                                      size: 20,
-                                      color: Colors.white,
-                                    ),
-                                    onPressed: () => onClick(),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: Container(
+                                width: 35,
+                                height: 35,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100),
+                                  color: MyColors.btnBorderColor,
+                                ),
+                                child: IconButton(
+                                  icon: const Icon(
+                                    LineAwesomeIcons.camera,
+                                    size: 20,
+                                    color: Colors.white,
                                   ),
+                                  onPressed: () => onClick(),
                                 ),
                               ),
-                            ],
-                          ),
-                        )
-                      ];
-                    } else if (snapshot.hasError) {
-                      children = <Widget>[Text('${snapshot.error}')];
-                    } else {
-                      children = const <Widget>[
-                        SizedBox(
-                          width: 60,
-                          height: 60,
-                          child: CircularProgressIndicator(),
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 16),
-                          child: Text('Awaiting result...'),
-                        ),
-                      ];
-                    }
-                    return Center(
-                      child: Column(
-                        children: children,
                       ),
-                    );
-                  },
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Form(
-                    child: Column(
+                    ];
+                  } else if (snapshot.hasError) {
+                    children = <Widget>[Text('${snapshot.error}')];
+                  } else {
+                    children = const <Widget>[
+                      SizedBox(
+                        width: 60,
+                        height: 60,
+                        child: CircularProgressIndicator(),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 16),
+                        child: Text('Awaiting result...'),
+                      ),
+                    ];
+                  }
+                  return Center(child: Column(children: children));
+                },
+              ),
+              const SizedBox(height: 30),
+              Form(
+                child: Column(
                   children: [
                     FutureBuilder<String>(
                       future: sharedPrefs.getPref(
-                          'customerName'), // a previously-obtained Future<String> or null
-                      builder: (BuildContext context,
-                          AsyncSnapshot<String> snapshot) {
+                        'customerName',
+                      ), // a previously-obtained Future<String> or null
+                      builder: (
+                        BuildContext context,
+                        AsyncSnapshot<String> snapshot,
+                      ) {
                         List<Widget> children;
                         if (snapshot.hasData) {
                           children = <Widget>[
                             Padding(
                               padding: const EdgeInsets.only(top: 16),
-                              child: (loginController.isNameEnabled.value ==
-                                          false &&
-                                      signUpController.isEnabledName.value ==
-                                          false)
-                                  ? FormTextFiled(
-                                      enabled: false,
-                                      label: "Full Name",
-                                      prefIcon: Icon(
-                                        LineAwesomeIcons.user,
-                                        color: MyColors.captionColor,
+                              child:
+                                  (loginController.isNameEnabled.value ==
+                                              false &&
+                                          signUpController
+                                                  .isEnabledName
+                                                  .value ==
+                                              false)
+                                      ? FormTextFiled(
+                                        enabled: false,
+                                        label: "Full Name",
+                                        prefIcon: Icon(
+                                          LineAwesomeIcons.user,
+                                          color: MyColors.captionColor,
+                                        ),
+                                        controller: profileController.name,
+                                      )
+                                      : FormTextFiled(
+                                        label: "Full Name",
+                                        prefIcon: Icon(
+                                          LineAwesomeIcons.user,
+                                          color: MyColors.captionColor,
+                                        ),
+                                        controller: profileController.name,
                                       ),
-                                      controller: profileController.name)
-                                  : FormTextFiled(
-                                      label: "Full Name",
-                                      prefIcon: Icon(
-                                        LineAwesomeIcons.user,
-                                        color: MyColors.captionColor,
-                                      ),
-                                      controller: profileController.name),
                             ),
                           ];
                         } else if (snapshot.hasError) {
@@ -231,19 +232,18 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                             ),
                           ];
                         }
-                        return Center(
-                          child: Column(
-                            children: children,
-                          ),
-                        );
+                        return Center(child: Column(children: children));
                       },
                     ),
                     const SizedBox(height: 20),
                     FutureBuilder<String>(
                       future: sharedPrefs.getPref(
-                          'customerEmail'), // a previously-obtained Future<String> or null
-                      builder: (BuildContext context,
-                          AsyncSnapshot<String> snapshot) {
+                        'customerEmail',
+                      ), // a previously-obtained Future<String> or null
+                      builder: (
+                        BuildContext context,
+                        AsyncSnapshot<String> snapshot,
+                      ) {
                         List<Widget> children;
                         if (snapshot.hasData) {
                           children = <Widget>[
@@ -253,8 +253,10 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                 label: "Email",
                                 enabled: false,
                                 initialValue: "${snapshot.data} ",
-                                prefIcon: Icon(LineAwesomeIcons.envelope,
-                                    color: MyColors.captionColor),
+                                prefIcon: Icon(
+                                  LineAwesomeIcons.envelope,
+                                  color: MyColors.captionColor,
+                                ),
                               ),
                             ),
                           ];
@@ -273,29 +275,31 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                             ),
                           ];
                         }
-                        return Center(
-                          child: Column(
-                            children: children,
-                          ),
-                        );
+                        return Center(child: Column(children: children));
                       },
                     ),
                     const SizedBox(height: 20),
                     FutureBuilder<String>(
                       future: sharedPrefs.getPref(
-                          'customerPhoneNumber'), // a previously-obtained Future<String> or null
-                      builder: (BuildContext context,
-                          AsyncSnapshot<String> snapshot) {
+                        'customerPhoneNumber',
+                      ), // a previously-obtained Future<String> or null
+                      builder: (
+                        BuildContext context,
+                        AsyncSnapshot<String> snapshot,
+                      ) {
                         List<Widget> children;
                         if (snapshot.hasData) {
                           children = <Widget>[
                             Padding(
                               padding: const EdgeInsets.only(top: 16),
                               child: FormTextFiled(
-                                  label: "Phone N°",
-                                  prefIcon: Icon(LineAwesomeIcons.phone,
-                                      color: MyColors.captionColor),
-                                  controller: profileController.phoneNumber),
+                                label: "Phone N°",
+                                prefIcon: Icon(
+                                  LineAwesomeIcons.phone,
+                                  color: MyColors.captionColor,
+                                ),
+                                controller: profileController.phoneNumber,
+                              ),
                             ),
                           ];
                         } else if (snapshot.hasError) {
@@ -313,42 +317,40 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                             ),
                           ];
                         }
-                        return Center(
-                          child: Column(
-                            children: children,
-                          ),
-                        );
+                        return Center(child: Column(children: children));
                       },
                     ),
                     const SizedBox(height: 20),
                   ],
-                )),
-                const SizedBox(
-                  height: 40,
                 ),
-                SizedBox(
-                  width: double.infinity,
-                  height: 45,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // profileController
-                      //     .updateProfile(cloudinaryResponses.secureUrl!);
-                      Get.toNamed('/profil');
-                      Get.snackbar('Success', 'Profile Updated Successfully');
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: MyColors.btnColor,
-                      side: BorderSide.none,
-                      shape: const StadiumBorder(),
-                    ),
-                    child: const Text(
-                      "Edit Profile",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
+              ),
+              const SizedBox(height: 40),
+              SizedBox(
+                width: double.infinity,
+                height: 45,
+                child: ElevatedButton(
+                  onPressed: () {
+                    // profileController
+                    //     .updateProfile(cloudinaryResponses.secureUrl!);
+                    Get.toNamed('/profil');
+                    Get.snackbar('Success', 'Profile Updated Successfully');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: MyColors.btnColor,
+                    side: BorderSide.none,
+                    shape: const StadiumBorder(),
+                  ),
+                  child: const Text(
+                    "Edit Profile",
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
-              ])),
-        ));
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   void onNewImages(List<String> filePaths) {

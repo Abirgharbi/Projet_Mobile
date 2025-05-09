@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: "ARkea",
+      title: "KOA_Home",
       theme: ThemeData(
         textTheme: TTtextTheme.lightTextTheme,
         brightness: Brightness.light,

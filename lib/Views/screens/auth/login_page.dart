@@ -50,10 +50,7 @@ class LoginPageState extends State<LoginPage> {
               onPressed: () {
                 Get.back();
               },
-              icon: const Icon(
-                Icons.arrow_back_ios,
-                color: Colors.black,
-              ),
+              icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
             ),
           ),
           resizeToAvoidBottomInset: true,
@@ -64,109 +61,97 @@ class LoginPageState extends State<LoginPage> {
               alignment: Alignment.center,
               child: Center(
                 child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const TopImage(),
-                      const LoginText(),
-                      const SizedBox(height: 15),
-                      FormTextFiled(
-                        validator: (value) => validateValue(value),
-                        controller: loginController.emailEditingController,
-                        typeInput: TextInputType.emailAddress,
-                        prefIcon: Icon(
-                          Icons.email_outlined,
-                          color: MyColors.captionColor,
-                        ),
-                        sufIcon: null,
-                        label: "Email",
-                      )
-                          .animate(delay: 1800.ms)
-                          .fade(duration: 500.ms),
-                      const SizedBox(height: 25),
-                      Container(
-                        margin: const EdgeInsets.all(15),
-                        width: gWidth / 2,
-                        height: gHeight / 12,
-                        child: Obx(
-                          () {
-                            return ElevatedButton(
-                              style: isEnabled == true
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const TopImage(),
+                    const LoginText(),
+                    const SizedBox(height: 15),
+                    FormTextFiled(
+                      validator: (value) => validateValue(value),
+                      controller: loginController.emailEditingController,
+                      typeInput: TextInputType.emailAddress,
+                      prefIcon: Icon(
+                        Icons.email_outlined,
+                        color: MyColors.captionColor,
+                      ),
+                      sufIcon: null,
+                      label: "Email",
+                    ).animate(delay: 1800.ms).fade(duration: 500.ms),
+                    const SizedBox(height: 25),
+                    Container(
+                      margin: const EdgeInsets.all(15),
+                      width: gWidth / 2,
+                      height: gHeight / 12,
+                      child: Obx(() {
+                        return ElevatedButton(
+                          style:
+                              isEnabled == true
                                   ? ElevatedButton.styleFrom(
-                                      fixedSize: const Size(50, 50),
-                                      backgroundColor: MyColors.btnColor,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20),
-                                      ),
-                                    )
+                                    fixedSize: const Size(50, 50),
+                                    backgroundColor: MyColors.btnColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  )
                                   : ElevatedButton.styleFrom(
-                                      fixedSize: const Size(50, 50),
-                                      backgroundColor:
-                                          MyColors.btnColor.withOpacity(0.7),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20),
-                                      ),
+                                    fixedSize: const Size(50, 50),
+                                    backgroundColor: MyColors.btnColor
+                                        .withOpacity(0.7),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
                                     ),
-                              onPressed: isEnabled == true
+                                  ),
+                          onPressed:
+                              isEnabled == true
                                   ? () async {
-                                      await loginController.login();
-                                    }
+                                    await loginController.login();
+                                  }
                                   : null,
-                              child: loginController.isLogginIn.value
+                          child:
+                              loginController.isLogginIn.value
                                   ? const Center(
-                                      child: CircularProgressIndicator(
-                                        color: Colors.white,
-                                      ),
-                                    )
-                                  : const Text(
-                                      "LogIn",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
                                     ),
-                            );
-                          },
-                        ),
-                      )
-                          .animate(delay: 1400.ms)
-                          .fade(duration: 500.ms),
-                      const OrText(),
-                      const SizedBox(
-                        height: 10,
+                                  )
+                                  : const Text(
+                                    "LogIn",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                        );
+                      }),
+                    ).animate(delay: 1400.ms).fade(duration: 500.ms),
+                    const OrText(),
+                    const SizedBox(height: 10),
+                    Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          MediaTile(
+                            imagePath: "assets/images/FacebookLogo.png",
+                            size: 30,
+                            onPress: () {
+                              loginController.loginfacebook();
+                            },
+                          ),
+                          const SizedBox(width: 20),
+                          MediaTile(
+                            imagePath: "assets/images/google.png",
+                            size: 30,
+                            onPress: () {
+                              loginController.signUpWithGoogle();
+                            },
+                          ),
+                        ],
                       ),
-                      Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            MediaTile(
-                              imagePath: "assets/images/FacebookLogo.png",
-                              size: 30,
-                              onPress: () {
-                                loginController.loginfacebook();
-                              },
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            MediaTile(
-                              imagePath: "assets/images/google.png",
-                              size: 30,
-                              onPress: () {
-                                loginController.signUpWithGoogle();
-                              },
-                            ),
-                          ],
-                        ),
-                      )
-                          .animate(delay: 600.ms)
-                          .fade(duration: 500.ms),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const RegisterText()
-                    ]),
+                    ).animate(delay: 600.ms).fade(duration: 500.ms),
+                    const SizedBox(height: 10),
+                    const RegisterText(),
+                  ],
+                ),
               ),
             ),
           ),
@@ -178,18 +163,13 @@ class LoginPageState extends State<LoginPage> {
 
 // Register Text
 class RegisterText extends StatelessWidget {
-  const RegisterText({
-    Key? key,
-  }) : super(key: key);
+  const RegisterText({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(
-          () => const SignUp(),
-          transition: Transition.leftToRight,
-        );
+        Get.to(() => const SignUp(), transition: Transition.leftToRight);
       },
       child: Container(
         margin: const EdgeInsets.only(top: 22),
@@ -198,7 +178,7 @@ class RegisterText extends StatelessWidget {
         child: FittedBox(
           child: RichText(
             text: const TextSpan(
-              text: "New to ARkea ?",
+              text: "New to KOA Home ?",
               style: TextStyle(color: MyColors.subTitleTextColor),
               children: [
                 TextSpan(
@@ -213,17 +193,13 @@ class RegisterText extends StatelessWidget {
           ),
         ),
       ),
-    )
-        .animate()
-        .fade(duration: 500.ms);
+    ).animate().fade(duration: 500.ms);
   }
 }
 
 // Or text
 class OrText extends StatelessWidget {
-  const OrText({
-    Key? key,
-  }) : super(key: key);
+  const OrText({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -233,34 +209,22 @@ class OrText extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              width: 150,
-              height: 0.2,
-              color: MyColors.captionColor,
-            ),
+            Container(width: 150, height: 0.2, color: MyColors.captionColor),
             Text(
               "  OR  ",
               style: TextStyle(color: MyColors.captionColor, fontSize: 15),
             ),
-            Container(
-              width: 150,
-              height: 0.2,
-              color: MyColors.captionColor,
-            ),
+            Container(width: 150, height: 0.2, color: MyColors.captionColor),
           ],
         ),
       ),
-    )
-        .animate(delay: 1000.ms)
-        .fade(duration: 500.ms);
+    ).animate(delay: 1000.ms).fade(duration: 500.ms);
   }
 }
 
 // Login Text
 class LoginText extends StatelessWidget {
-  const LoginText({
-    super.key,
-  });
+  const LoginText({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -274,18 +238,13 @@ class LoginText extends StatelessWidget {
           fontWeight: FontWeight.bold,
         ),
       ),
-    )
-        .animate(delay: 2300.ms)
-        .fade()
-        .slideX(begin: -0.2, duration: 500.ms);
+    ).animate(delay: 2300.ms).fade().slideX(begin: -0.2, duration: 500.ms);
   }
 }
 
 // Top Image
 class TopImage extends StatelessWidget {
-  const TopImage({
-    super.key,
-  });
+  const TopImage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -293,8 +252,6 @@ class TopImage extends StatelessWidget {
       width: gWidth,
       height: gHeight / 2.85,
       child: Image.asset("assets/images/logofinal.png"),
-    )
-        .animate(delay: 1800.ms)
-        .fade(duration: 500.ms);
+    ).animate(delay: 1800.ms).fade(duration: 500.ms);
   }
 }
