@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -29,7 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    filteredProductList = productController.mostLikedProductList +
+    filteredProductList =
+        productController.mostLikedProductList +
         productController.recentProductsList;
   }
 
@@ -43,35 +43,32 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-        physics: const BouncingScrollPhysics(
-            parent: AlwaysScrollableScrollPhysics()),
-        padding: const EdgeInsets.all(16),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const SizedBox(
-            height: 50,
-          ),
+      physics: const BouncingScrollPhysics(
+        parent: AlwaysScrollableScrollPhysics(),
+      ),
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 50),
           CustomSearchBar(
             productList: filteredProductList,
             onFilter: filterProducts,
           ),
-          const SizedBox(
-            height: 20,
-          ),
+          const SizedBox(height: 20),
           const Categories(),
           const SpecialOffers(),
-          const SizedBox(
-            height: 16,
-          ),
+          const SizedBox(height: 16),
           const NewArrivalSection(),
           const PopularProductSection(),
-        ]));
+        ],
+      ),
+    );
   }
 }
 
 class PopularProductSection extends StatelessWidget {
-  const PopularProductSection({
-    super.key,
-  });
+  const PopularProductSection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -79,38 +76,43 @@ class PopularProductSection extends StatelessWidget {
       children: [
         SectionTitle(
           title: "Popular",
-          pressSeeAll: () => Get.toNamed("/popularProducts", arguments: {
-            "mostLikedProducts": productController.mostLikedProductList,
-          }),
+          pressSeeAll:
+              () => Get.toNamed(
+                "/popularProducts",
+                arguments: {
+                  "mostLikedProducts": productController.mostLikedProductList,
+                },
+              ),
           text: "See All",
         ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Obx(
-            () => productController.isLoading.value
-                ? const CircularProgressIndicator()
-                : Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: List.generate(
+            () =>
+                productController.isLoading.value
+                    ? const CircularProgressIndicator()
+                    : Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: List.generate(
                         productController.mostLikedProductList.length,
                         (index) => Padding(
-                              padding: const EdgeInsets.only(right: 16),
-                              child: ProductCard(
-                                  product: productController
-                                      .mostLikedProductList[index]),
-                            )),
-                  ),
+                          padding: const EdgeInsets.only(right: 16),
+                          child: ProductCard(
+                            product:
+                                productController.mostLikedProductList[index],
+                          ),
+                        ),
+                      ),
+                    ),
           ),
-        )
+        ),
       ],
     );
   }
 }
 
 class NewArrivalSection extends StatelessWidget {
-  const NewArrivalSection({
-    super.key,
-  });
+  const NewArrivalSection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -119,51 +121,49 @@ class NewArrivalSection extends StatelessWidget {
         SectionTitle(
           title: "New Arrival",
           text: "See All",
-          pressSeeAll: () => Navigator.pushNamed(
-            context,
-            "/newProducts",
-            arguments: {
-              "recentProducts": productController.recentProductsList,
-            },
-          ),
+          pressSeeAll:
+              () => Navigator.pushNamed(
+                context,
+                "/newProducts",
+                arguments: {
+                  "recentProducts": productController.recentProductsList,
+                },
+              ),
         ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Obx(
-            () => productController.isLoading.value
-                ? const CircularProgressIndicator()
-                : Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: List.generate(
+            () =>
+                productController.isLoading.value
+                    ? const CircularProgressIndicator()
+                    : Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: List.generate(
                         productController.recentProductsList.length,
                         (index) => Padding(
-                              padding: const EdgeInsets.only(right: 16),
-                              child: ProductCard(
-                                  product: productController
-                                      .recentProductsList[index]),
-                            )),
-                  ),
+                          padding: const EdgeInsets.only(right: 16),
+                          child: ProductCard(
+                            product:
+                                productController.recentProductsList[index],
+                          ),
+                        ),
+                      ),
+                    ),
           ),
-        )
+        ),
       ],
     );
   }
 }
 
 class SpecialOffers extends StatelessWidget {
-  const SpecialOffers({
-    Key? key,
-  }) : super(key: key);
+  const SpecialOffers({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SectionTitle(
-          title: "Special for you",
-          pressSeeAll: () {},
-          text: "",
-        ),
+        SectionTitle(title: "Special for you", pressSeeAll: () {}, text: ""),
         SizedBox(height: gHeight / 50),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -284,17 +284,14 @@ class SectionTitle extends StatelessWidget {
       children: [
         Text(
           title,
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium!
-              .copyWith(fontWeight: FontWeight.w500),
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w500),
         ),
         TextButton(
-            onPressed: pressSeeAll,
-            child: Text(
-              text!,
-              style: TextStyle(color: Colors.black54),
-            ))
+          onPressed: pressSeeAll,
+          child: Text(text!, style: TextStyle(color: Colors.black54)),
+        ),
       ],
     );
   }
@@ -302,5 +299,6 @@ class SectionTitle extends StatelessWidget {
 
 //LineIcons
 const OutlineInputBorder outlineInputBorder = OutlineInputBorder(
-    borderRadius: BorderRadius.all(Radius.circular(12)),
-    borderSide: BorderSide.none);
+  borderRadius: BorderRadius.all(Radius.circular(12)),
+  borderSide: BorderSide.none,
+);

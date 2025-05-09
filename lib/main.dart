@@ -16,7 +16,7 @@ import 'Views/screens/profil_page/profil_page.dart';
 
 import 'utils/text_theme.dart';
 import 'Views/screens/profil_page/AddressScreen.dart';
-import 'deep_linking.dart';  // Import the deep linking module
+import 'deep_linking.dart'; // Import the deep linking module
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
       defaultTransition: Transition.fade,
-     initialRoute: "/splash",
+      initialRoute: "/splash",
       initialBinding: MyBindings(),
       getPages: [
         GetPage(name: '/landing', page: () => const LandingPage()),
@@ -50,15 +50,14 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/login', page: () => const LoginPage()),
         GetPage(name: '/signup', page: () => const SignUp()),
         GetPage(name: '/profil', page: () => ProfileScreen()),
-
         GetPage(
-            name: '/noLoggedInprofil',
-            page: () => const noLoggedIn_profilPage()),
-  
+          name: '/noLoggedInprofil',
+          page: () => const noLoggedIn_profilPage(),
+        ),
+
         GetPage(name: '/address', page: () => const AddressScreen()),
 
         GetPage(name: '/splash', page: () => SplashScreen()),
-
       ],
       home: SplashScreen(),
     );
