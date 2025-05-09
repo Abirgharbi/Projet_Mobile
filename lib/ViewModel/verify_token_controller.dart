@@ -14,7 +14,9 @@ class VerifyTokenController extends GetxController {
       isLoading.value = true;
       isError.value = false;
 
-      final response = await NetworkHandler.get('verifyMagicLink?token=$token');
+      final response = await NetworkHandler.get(
+        'user/verifyMagicLink?token=$token',
+      );
       final data = jsonDecode(response);
 
       if (data['success'] == true) {
