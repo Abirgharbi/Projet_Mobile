@@ -26,7 +26,7 @@ class LoginPageState extends State<LoginPage> {
   String? _token; // Token to be displayed
 
   @override
-  void initState() {o
+  void initState() {
     super.initState();
     _loadToken(); // Load token when the page is created
   }
