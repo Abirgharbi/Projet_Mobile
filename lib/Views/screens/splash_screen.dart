@@ -42,7 +42,7 @@ class SplashScreen extends StatelessWidget {
                     children: [
                       Center(
                         child: Text(
-                          "Welcome To ARkea",
+                          "Welcome To KOAHome",
                           style: Theme.of(context).textTheme.displaySmall,
                         ),
                       ),

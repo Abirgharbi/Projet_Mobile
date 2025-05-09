@@ -1,36 +1,43 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class SharedPrefs {
   SharedPreferences? _sharedPrefs;
-  init() async {
+
+  // Initialize SharedPreferences
+  Future<void> init() async {
     _sharedPrefs = await SharedPreferences.getInstance();
   }
 
-  Future<String> getPref(String key) async {
+  // Get a String value from SharedPreferences
+  Future<String?> getPref(String key) async {
     final SharedPreferences? prefs = _sharedPrefs;
-    return prefs?.getString(key) ?? '';
+    return prefs?.getString(key);
   }
 
-  setPref(String key, String value) async {
+  // Set a String value in SharedPreferences
+  Future<void> setPref(String key, String value) async {
     final SharedPreferences? prefs = _sharedPrefs;
-    prefs?.setString(key, value) ?? '';
+    await prefs?.setString(key, value);
   }
 
-  setStringList(String key, List<String> value) async {
+  // Set a list of Strings in SharedPreferences
+  Future<void> setStringList(String key, List<String> value) async {
     final SharedPreferences? prefs = _sharedPrefs;
-    prefs?.setStringList(key, value) ?? '';
+    await prefs?.setStringList(key, value);
   }
 
+  // Get a list of Strings from SharedPreferences
   Future<List<String>> getStringList(String key) async {
     final SharedPreferences? prefs = _sharedPrefs;
     return prefs?.getStringList(key) ?? [];
   }
 
-  removePref(String key) async {
+  // Remove a key from SharedPreferences
+  Future<void> removePref(String key) async {
     final SharedPreferences? prefs = _sharedPrefs;
-    prefs?.remove(key);
+    await prefs?.remove(key);
   }
 }
 
+// Instantiate SharedPrefs
 final sharedPrefs = SharedPrefs();

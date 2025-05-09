@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../Model/service/network_handler.dart';
 
 class VerifyTokenController extends GetxController {
@@ -19,8 +20,12 @@ class VerifyTokenController extends GetxController {
       );
       final data = jsonDecode(response);
 
-      if (data['success'] == true) {
+      if (data['success'] == true && data['token'] != null) {
         isSuccess.value = true;
+
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('auth_token', data['token']);
+
         await Future.delayed(const Duration(seconds: 1));
         Get.toNamed('/landing');
       } else {
