@@ -28,15 +28,15 @@ class DeepLinking {
   // Function to handle deep link logic
   static void _handleDeepLink(Uri link) {
     print('Received deep link: $link');
-
-    // Example logic: check for `/user` and a `token` parameter
-    if (link.pathSegments.contains('user') &&
+    if (link.pathSegments.contains('verify') &&
         link.queryParameters['token'] != null) {
       final String? token = link.queryParameters['token'];
       if (token != null && token.isNotEmpty) {
-        // Navigate to the desired page
-        Get.toNamed('/landing'); // Update this route as needed
+        Get.toNamed('/verify', arguments: {'token': token});
       }
+    }
+    if (link.pathSegments.contains('home')) {
+      Get.toNamed('/home');
     }
   }
 }

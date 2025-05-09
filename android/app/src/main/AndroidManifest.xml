@@ -30,6 +30,8 @@
     <category android:name="android.intent.category.DEFAULT" />
     <category android:name="android.intent.category.BROWSABLE" />
    <data android:scheme="myApp" android:host="KOA.com" />
+      <data android:scheme="http" android:host="KOA" />
+
 </intent-filter>
 
         </activity>
