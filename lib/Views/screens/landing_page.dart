@@ -78,7 +78,6 @@ class _LandingPageState extends State<LandingPage> {
             GButton(
               icon: Icons.shopping_cart_outlined,
               text: "Cart",
-              iconColor: Colors.black,
               leading: Obx(
                 () =>
                     orderController.productCarts.isEmpty
@@ -112,13 +111,14 @@ class _LandingPageState extends State<LandingPage> {
               icon: Icons.favorite_border_outlined,
               text: "Liked",
               iconColor: Colors.black,
+              textColor: Colors.black,
 
               leading: Obx(
                 () =>
                     productController.wishlist.isEmpty
                         ? const Icon(
                           Icons.favorite_border_outlined,
-                          color: Color.fromARGB(255, 0, 0, 0),
+                          color: MyColors.btnBorderColor,
                         )
                         : badges.Badge(
                           position: badges.BadgePosition.topStart(
