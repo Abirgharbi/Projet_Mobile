@@ -34,9 +34,13 @@ class DeepLinking {
       if (token != null && token.isNotEmpty) {
         Get.toNamed('/verify', arguments: {'token': token});
       }
+
     }
     if (link.pathSegments.contains('home')) {
       Get.toNamed('/home');
     }
   }
+}
+
+
 }
