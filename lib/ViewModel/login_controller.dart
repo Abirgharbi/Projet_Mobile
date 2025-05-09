@@ -30,17 +30,17 @@ class LoginController extends GetxController {
   login() async {
     isLogginIn.value = true;
     isNameEnabled.value = true;
-    CustomerModel customerModel =
-        CustomerModel(email: emailEditingController.text);
+    CustomerModel customerModel = CustomerModel(
+      email: emailEditingController.text,
+    );
     print(customerModelToJson(customerModel));
-
-    
 
     try {
       var response = await NetworkHandler.post(
-          customerModelToJson(customerModel), "user/login");
+        customerModelToJson(customerModel),
+        "user/login",
+      );
       var data = json.decode(response);
-
       sharedPrefs.setPref('token', data['token'].toString());
       if (data['token'].toString().isNotEmpty) {
         isLogginIn.value = false;
@@ -72,9 +72,9 @@ class LoginController extends GetxController {
       }
 
       var customerAdress = await NetworkHandler.get(
-          "user/customer/address/${data['customer']['email']}");
+        "user/customer/address/${data['customer']['email']}",
+      );
       var adressData = json.decode(customerAdress);
-      print(adressData);
 
       String address =
           "${adressData['address'][0]['line1']}, ${adressData['address'][0]['city']}, ${adressData['address'][0]['country']}";
@@ -88,7 +88,9 @@ class LoginController extends GetxController {
       sharedPrefs.setPref('customerImage', data['customer']['image']);
 
       sharedPrefs.setPref(
-          'customerPhoneNumber', data['customer']['phone'] ?? '');
+        'customerPhoneNumber',
+        data['customer']['phone'] ?? '',
+      );
 
       sharedPrefs.setPref('city', adressData['address'][0]['city']);
       sharedPrefs.setPref('country', adressData['address'][0]['country']);
@@ -96,7 +98,9 @@ class LoginController extends GetxController {
       sharedPrefs.setPref('line2', adressData['address'][0]['line2']);
       sharedPrefs.setPref('state', adressData['address'][0]['state']);
       sharedPrefs.setPref(
-          'zipCode', adressData['address'][0]['zipCode'].toString());
+        'zipCode',
+        adressData['address'][0]['zipCode'].toString(),
+      );
     } catch (e) {
       isLogginIn.value = false;
       print(e);
@@ -105,6 +109,8 @@ class LoginController extends GetxController {
 
   void logOut() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // Remove all stored preferences related to the user
     await prefs.remove('token');
     await prefs.remove('customerId');
     await prefs.remove('customerName');
@@ -117,16 +123,15 @@ class LoginController extends GetxController {
     await prefs.remove('line2');
     await prefs.remove('state');
     await prefs.remove('zipCode');
-    // if i wanna clear all the shared preferences i can use this
-    //  SharedPreferences preferences = await SharedPreferences.getInstance();
-    //     await preferences.clear();
 
-    await FacebookAuth.instance.logOut();
+    // Sign out from Google, if signed in
     await signupController.googleSignIn.signOut();
-    await _googleSignIn.signOut();
+
+    // Reset any variables
     accessToken = null;
     userDataf = null;
 
+    // Navigate back to the landing page
     Get.offAll(const LandingPage());
   }
 
@@ -144,8 +149,9 @@ class LoginController extends GetxController {
   }
 
   Future<void> loginfacebook() async {
-    final LoginResult result = await FacebookAuth.instance
-        .login(permissions: ['public_profile', 'email']);
+    final LoginResult result = await FacebookAuth.instance.login(
+      permissions: ['public_profile', 'email'],
+    );
     isNameEnabled.value = false;
     if (result.status == LoginStatus.success) {
       accessToken = result.accessToken;
@@ -155,9 +161,13 @@ class LoginController extends GetxController {
       sharedPrefs.setPref('customerName', userDataf!['name']);
       sharedPrefs.setPref('customerEmail', userDataf!['email']);
       sharedPrefs.setPref(
-          'customerImage', userDataf!['picture']['data']['url']);
+        'customerImage',
+        userDataf!['picture']['data']['url'],
+      );
       var response = await NetworkHandler.post(
-          '{"email": "${userDataf!["email"]}"}', "user/oauth/login");
+        '{"email": "${userDataf!["email"]}"}',
+        "user/oauth/login",
+      );
       var data = await json.decode(response);
       sharedPrefs.setPref('token', data['token']);
 
@@ -175,6 +185,7 @@ class LoginController extends GetxController {
 
   Future<GoogleSignInAccount?> signUpWithGoogle() async {
     try {
+      print("Google Sign UP");
       var user = await _googleSignIn.signIn();
       isNameEnabled.value = false;
 
@@ -183,12 +194,15 @@ class LoginController extends GetxController {
         "name": user.displayName.toString(),
         "photoUrl": user.photoUrl.toString(),
       });
+      print(userDataf);
       sharedPrefs.setPref('customerName', user.displayName.toString());
       sharedPrefs.setPref('customerEmail', user.email);
       sharedPrefs.setPref('customerImage', user.photoUrl.toString());
 
       var response = await NetworkHandler.post(
-          '{"email": "${user.email}"}', "user/oauth/login");
+        '{"email": "${user.email}"}',
+        "user/oauth/login",
+      );
       var data = await json.decode(response);
       sharedPrefs.setPref('token', data['token']);
 

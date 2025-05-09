@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+
 const String baseUrl = "http://10.0.2.2:4002";
 CategoryModel categoryModelFromJson(String str) =>
     CategoryModel.fromJson(json.decode(str));

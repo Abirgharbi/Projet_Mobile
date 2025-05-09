@@ -26,17 +26,18 @@ class DeepLinking {
   }
 
   // Function to handle deep link logic
-static void _handleDeepLink(Uri link) {
-  print('Received deep link: $link');
+  static void _handleDeepLink(Uri link) {
+    print('Received deep link: $link');
+    if (link.pathSegments.contains('verify') &&
+        link.queryParameters['token'] != null) {
+      final String? token = link.queryParameters['token'];
+      if (token != null && token.isNotEmpty) {
+        Get.toNamed('/verify', arguments: {'token': token});
+      }
 
-  // Vérifie si le chemin est "/landing" et que le token est présent
-  if (link.pathSegments.contains('landing') && link.queryParameters['token'] != null) {
-    final String? token = link.queryParameters['token'];
-    print('Token received: $token');
-
-    // Si un token valide est trouvé, navigue vers la page de landing
-    if (token != null && token.isNotEmpty) {
-      Get.toNamed('/landing');  // Assure-toi que la page "/landing" existe dans tes routes.
+    }
+    if (link.pathSegments.contains('home')) {
+      Get.toNamed('/home');
     }
   }
 }
