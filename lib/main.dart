@@ -52,7 +52,6 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/login', page: () => const LoginPage()),
         GetPage(name: '/signup', page: () => const SignUp()),
         GetPage(name: '/profil', page: () => ProfileScreen()),
-
         GetPage(
           name: '/noLoggedInprofil',
           page: () => const noLoggedIn_profilPage(),
@@ -62,6 +61,7 @@ class MyApp extends StatelessWidget {
 
         GetPage(name: '/splash', page: () => SplashScreen()),
         GetPage(name: '/verify', page: () => const VerifyTokenPage()),
+
       ],
       home: SplashScreen(),
     );
