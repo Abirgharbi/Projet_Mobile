@@ -42,7 +42,7 @@ class SplashScreen extends StatelessWidget {
                     children: [
                       Center(
                         child: Text(
-                          "Welcome To ARkea",
+                          "Welcome To KOAHome",
                           style: Theme.of(context).textTheme.displaySmall,
                         ),
                       ),
@@ -61,7 +61,7 @@ class SplashScreen extends StatelessWidget {
                   opacity: splashController.animate.value ? 1 : 0,
                   child: const Image(
                     image: AssetImage("assets/images/logo_KOA.png"),
-                    width: 300,
+                    width: 150,
                   ),
                 ),
               ),
