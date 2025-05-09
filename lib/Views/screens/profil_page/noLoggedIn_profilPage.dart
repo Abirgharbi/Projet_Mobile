@@ -18,7 +18,7 @@ class noLoggedIn_profilPage extends StatefulWidget {
 class _noLoggedIn_profilPageState extends State<noLoggedIn_profilPage> {
   late GoogleMapController mapController;
 
-  final LatLng _isammPosition = const LatLng(36.8090, 10.0975);
+  final LatLng _KOALocation = const LatLng(36.8090, 10.0975);
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -114,25 +114,36 @@ class _noLoggedIn_profilPageState extends State<noLoggedIn_profilPage> {
               // --- Carte Google Map ---
               Container(
                 width: double.infinity,
-                height: 200, // hauteur fixe pour la carte
+                height: 200,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.15),
+                      blurRadius: 10,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
                   border: Border.all(color: Colors.grey.shade300),
                 ),
-                child: GoogleMap(
-                  onMapCreated: _onMapCreated,
-                  initialCameraPosition: CameraPosition(
-                    target: _isammPosition,
-                    zoom: 16.0,
-                  ),
-                  markers: {
-                    Marker(
-                      markerId: const MarkerId("isamm_marker"),
-                      position: _isammPosition,
-                      infoWindow: const InfoWindow(title: "ISAMM Manouba"),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: GoogleMap(
+                    onMapCreated: _onMapCreated,
+                    initialCameraPosition: CameraPosition(
+                      target: _KOALocation,
+                      zoom: 16.0,
                     ),
-                  },
-                  zoomControlsEnabled: false,
+                    markers: {
+                      Marker(
+                        markerId: const MarkerId("KOA_marker"),
+                        position: _KOALocation,
+                        infoWindow: const InfoWindow(title: "KOA HOME"),
+                      ),
+                    },
+                    zoomControlsEnabled: false,
+                    myLocationButtonEnabled: false,
+                  ),
                 ),
               ),
 

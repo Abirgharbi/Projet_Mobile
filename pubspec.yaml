@@ -48,6 +48,8 @@ dependencies:
   timeago: ^3.3.0
   flutter_rating_bar: ^4.0.0
   app_links: ^3.0.0
+  flutter_launcher_icons: ^0.14.3
+
   google_maps_flutter: ^2.2.0 # ou la dernière version stable
 
   # The following adds the Cupertino Icons font to your application.
@@ -98,7 +100,10 @@ flutter:
           weight: 700
         - asset: assets/fonts/Gordita_Light.otf
           weight: 300
-
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo_KOA.png"
 flutter_native_splash:
   color: "#FFFFFF"
   image: assets/images/logo_KOA.png
