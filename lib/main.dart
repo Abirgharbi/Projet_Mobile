@@ -1,3 +1,4 @@
+import 'package:projet_ecommerce_meuble/Views/screens/auth/verify_token_page.dart';
 import 'package:projet_ecommerce_meuble/Views/screens/splash_screen.dart';
 import 'package:projet_ecommerce_meuble/utils/shared_preferences.dart';
 
@@ -10,6 +11,7 @@ import 'ViewModel/bindings.dart';
 import 'Views/screens/Home/home_page.dart';
 import 'Views/screens/auth/login_page.dart';
 import 'Views/screens/auth/signup.dart';
+
 import 'Views/screens/landing_page.dart';
 import 'Views/screens/profil_page/noLoggedIn_profilPage.dart';
 import 'Views/screens/profil_page/profil_page.dart';
@@ -58,6 +60,8 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/address', page: () => const AddressScreen()),
 
         GetPage(name: '/splash', page: () => SplashScreen()),
+        GetPage(name: '/verify', page: () => const VerifyTokenPage()),
+
       ],
       home: SplashScreen(),
     );
