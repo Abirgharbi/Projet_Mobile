@@ -1,3 +1,12 @@
+import 'package:projet_ecommerce_meuble/Views/screens/ProductDetails/details_screen.dart';
+import 'package:projet_ecommerce_meuble/Views/screens/ProductDetails/newArrival_screen.dart';
+import 'package:projet_ecommerce_meuble/Views/screens/ProductDetails/popular_products_screen.dart';
+import 'package:projet_ecommerce_meuble/Views/screens/ProductDetails/products_by_categories.dart';
+import 'package:projet_ecommerce_meuble/Views/screens/about_us.dart';
+import 'package:projet_ecommerce_meuble/Views/screens/checkOut/cart_screen.dart';
+import 'package:projet_ecommerce_meuble/Views/screens/help_center.dart';
+import 'package:projet_ecommerce_meuble/Views/screens/review/add-review.dart';
+import 'package:projet_ecommerce_meuble/Views/screens/review/review.dart';
 import 'package:projet_ecommerce_meuble/Views/screens/splash_screen.dart';
 import 'package:projet_ecommerce_meuble/utils/shared_preferences.dart';
 
@@ -50,10 +59,22 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/login', page: () => const LoginPage()),
         GetPage(name: '/signup', page: () => const SignUp()),
         GetPage(name: '/profil', page: () => ProfileScreen()),
+        GetPage(name: '/cart', page: () => CartScreen()),
+        GetPage(name: '/review', page: () => ReviewScreen()),
+                GetPage(name: '/add-review', page: () => const AddReviewScreen()),
+         GetPage(name: '/newProducts', page: () => const NewArrivalScreen()),
+        GetPage(
+            name: '/popularProducts', page: () => const PopularProductScreen()),
+             GetPage(
+            name: '/productsPerCategorie',
+            page: () => const ProductsByCategory()),
+                    GetPage(name: '/detail', page: () => DetailsScreen()),
         GetPage(
           name: '/noLoggedInprofil',
           page: () => const noLoggedIn_profilPage(),
         ),
+                GetPage(name: '/about', page: () => const AboutUsScreen()),
+        GetPage(name: '/help', page: () => const HelpCenterScreen()),
 
         GetPage(name: '/address', page: () => const AddressScreen()),
 

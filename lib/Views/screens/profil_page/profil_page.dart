@@ -262,6 +262,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       icon: LineAwesomeIcons.alternate_sign_out,
                       onPress: () {
                         loginController.logOut();
+                        Get.toNamed('/landing');
                       },
                     ),
                   ],

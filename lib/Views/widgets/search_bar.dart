@@ -47,32 +47,31 @@ class _SearchBarState extends State<CustomSearchBar> {
           contentPadding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
           prefixIcon: const Icon(Icons.search, color: Colors.black),
           suffixIcon: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: SizedBox(
-              height: 48,
-              width: 48,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: MyColors.btnColor.withOpacity(0.9),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                  ),
-                ),
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    isDismissible: false,
-                    builder: (context) {
-                      return const FilterPage();
-                    },
-                  );
-                },
-                child: SvgPicture.asset(
-                  'assets/images/filter_icon.svg',
-                ),
-              ),
-            ),
-          ),
+  padding: const EdgeInsets.symmetric(horizontal: 16),
+  child: SizedBox(
+    height: 48,
+    width: 48,
+    child: ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: MyColors.btnColor.withOpacity(0.9),
+        padding: EdgeInsets.zero,  // Remove default padding
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
+      onPressed: () => showModalBottomSheet(
+        context: context,
+        builder: (context) => FilterPage(),
+      ),
+      child: Image.asset(
+        'assets/images/filter.png',
+        width: 24,
+        height: 24,
+        errorBuilder: (_, __, ___) => Icon(Icons.error),  // Fallback
+      ),
+    ),
+  ),
+),
         ),
        onChanged: (value) {
   _filteredProductList = widget.productList

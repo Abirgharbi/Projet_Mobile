@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:projet_ecommerce_meuble/Model/cart_model.dart';
 import 'package:projet_ecommerce_meuble/Model/product_card_model.dart';
 import 'package:projet_ecommerce_meuble/Model/product_model.dart';
+import 'package:projet_ecommerce_meuble/Model/promo_model.dart';
 import 'package:projet_ecommerce_meuble/ViewModel/product_controller.dart';
 import 'package:projet_ecommerce_meuble/utils/colors.dart';
 import 'package:projet_ecommerce_meuble/utils/shared_preferences.dart';
@@ -20,13 +21,13 @@ class OrderController extends GetxController {
   RxBool exist = false.obs;
   RxBool applyDisabled = false.obs;
   late Cart foundProduct;
-
+  late Promo validPromo;
   RxDouble orderSum = 0.0.obs;
   double orderCost = 0.0;
   RxString message = "".obs;
   RxBool isAdded = false.obs;
   RxBool isValidCode = false.obs;
-
+  List<Promo> validPromoList = [];
   RxList productCarts = [].obs;
   @override
   void onInit() {
@@ -94,6 +95,40 @@ class OrderController extends GetxController {
     }
   }
 
+  void applyPromoCode() async {
+    int i = 0;
+    var response = await NetworkHandler.get("order/promo/getValidPromos");
+
+    try {
+      PromoModel promoModel = PromoModel.fromJson(json.decode(response));
+
+      validPromoList = promoModel.promos;
+
+      if (validPromoList.isNotEmpty) {
+        do {
+          if (validPromoList.elementAt(i).code == promoCode.text) {
+            isValidCode.value = true;
+            validPromo = validPromoList.elementAt(i);
+          }
+          i++;
+        } while (i < validPromoList.length && isValidCode.isFalse);
+      }
+
+      if (isValidCode.isTrue) {
+        double discount = validPromo.discount.toDouble();
+        double calculatedValue = orderSum.value * (discount / 100);
+        orderSum.value = double.parse(calculatedValue.toStringAsFixed(2));
+        sharedPrefs.setPref('orderSum', orderSum.value.toString());
+
+        applyDisabled.value = true;
+        message.value = "promotion applied";
+      } else {
+        message.value = "Invalid promo code";
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   void showConfirmationDialog(Product product, Function(bool) onConfirmation) {
     Get.defaultDialog(

@@ -25,10 +25,18 @@ class ReviewController extends GetxController {
     final image = await sharedPrefs.getPref('customerImage');
     final name = await sharedPrefs.getPref('customerName');
 
-    var response = await NetworkHandler.post(
-        '{"comment": "$comment", "rating": "$rating" ,"customerImage": "$image","customerName":"$name","productId": "$productId"}',
-        "review/add");
+   final body = {
+  "comment": comment,
+  "rating": rating,
+  "customerImage": image ?? "",
+  "customerName": name ?? "Anonymous",
+  "productId": productId,
+};
+
+var response = await NetworkHandler.post(json.encode(body), "review/add");
+
     print('---------');
+    print("Backend Response: $response");
     print(response);
     var res = await NetworkHandler.put(
         '{"rating": $rating}', "product/update-rating/$productId");
@@ -36,12 +44,20 @@ class ReviewController extends GetxController {
     isLoading(false);
   }
 
-  getProductReviews(String productId) async {
-    isLoading(true);
-    var response = await NetworkHandler.get("review/product/$productId");
+ getProductReviews(String productId) async {
+  isLoading(true);
+  var response = await NetworkHandler.get("review/product/$productId");
+  print("Backend Response: $response");  
+
+// <-- Add this to debug the response
+  if (response != null) {
     ReviewModel reviewModel = ReviewModel.fromJson(json.decode(response));
     reviewsList = reviewModel.reviews;
     count.value = reviewModel.count;
-    isLoading(false);
+  } else {
+    print('Error: No response from server');
   }
+  isLoading(false);
+}
+
 }
