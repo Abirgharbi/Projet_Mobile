@@ -34,11 +34,9 @@ class ProfileController extends GetxController {
       image: imageUrl, // Nullable image URL
       phone: phoneNumber.text,
     );
-    print(customerModel);
 
     // Fetch customer ID from SharedPreferences
     final id = await sharedPrefs.getPref('customerId');
-    print(id);
 
     // Send a PUT request to update the profile on the server
     var response = await NetworkHandler.put(
@@ -56,12 +54,11 @@ class ProfileController extends GetxController {
       sharedPrefs.setPref(
         'customerImage',
         '',
-      ); // Default value if imageUrl is null
+      );
     }
 
     sharedPrefs.setPref('customerPhoneNumber', phoneNumber.text);
 
-    // Navigate back to the profile screen or do something else
-    // Get.to(() => ProfileScreen());
+
   }
 }

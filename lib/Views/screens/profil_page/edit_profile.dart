@@ -20,17 +20,7 @@ import '../../widgets/form_textfiled.dart';
 var loginController = Get.put(LoginController());
 var signUpController = Get.put(SignupScreenController());
 
-const String apiKey = '674684268545591';
-const String apiSecret = 'QbAEIGv7obzNQFMgfVCIwXQnKLs';
-const String cloudName = 'dbkivxzek';
-const String folder = 'arkea';
-const String uploadPreset = 'arkea-dashboard';
 
-// final cloudinary = Cloudinary.signedConfig(
-//   cloudName: cloudName,
-//   apiKey: apiKey,
-//   apiSecret: apiSecret,
-// );
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});

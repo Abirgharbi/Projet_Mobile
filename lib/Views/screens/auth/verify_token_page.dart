@@ -16,7 +16,6 @@ class VerifyTokenPage extends StatelessWidget {
     if (token != null) {
       controller.verifyToken(token);
     }
-    print("Token: $token"); // Debug print
     return Scaffold(
       appBar: null, // Removed the AppBar to hide the navbar
       body: Center(
@@ -59,7 +58,7 @@ class VerifyTokenPage extends StatelessWidget {
                     });
 
                     return const Text(
-                      "KOA Home , C'est chez toi ou Quoi ?",
+                      "KOA Home – C’est stylé ou quoi ?",
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,

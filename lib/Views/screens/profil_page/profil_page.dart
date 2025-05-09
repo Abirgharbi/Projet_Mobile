@@ -9,6 +9,7 @@ import '../../../ViewModel/signup_controller.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/sizes.dart';
 import './edit_profile.dart';
+import '../../../ViewModel/theme_controller.dart';
 
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({super.key});
@@ -36,20 +37,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
     String? updatedCustomerName = await sharedPrefs.getPref('customerName');
     String? updatedCustomerEmail = await sharedPrefs.getPref('customerEmail');
     String? updatedCustomerImage = await sharedPrefs.getPref('customerImage');
+    String? tok = await sharedPrefs.getPref('auth-token');
 
     // Simulate a delay for the loading effect
     await Future.delayed(const Duration(seconds: 2));
 
     setState(() {
       token = updatedToken ?? ''; // Set token to an empty string if null
-      customerName = updatedCustomerName ?? 'No name';
+      customerName = updatedCustomerName ?? '';
       customerEmail = updatedCustomerEmail ?? 'No email';
       customerImage = updatedCustomerImage ?? '';
       isLoading = false; // Stop loading after the data is fetched
     });
+    print("Token: $tok");
   }
 
   final loginController = Get.put(LoginController());
+  final themeController = Get.find<ThemeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
               )
-              : token.isEmpty
+              : customerName.isEmpty
               ? const noLoggedIn_profilPage() // Show this if no token is found
               : SingleChildScrollView(
                 child: Container(
@@ -111,6 +115,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
                       const SizedBox(height: 20),
+
                       SizedBox(
                         width: 200,
                         height: 45,
@@ -129,6 +134,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                       ),
+                      Obx(
+                        () => SwitchListTile(
+                          title: Text(
+                            themeController.themeMode.value == ThemeMode.dark
+                                ? "Dark Mode"
+                                : "Light Mode",
+                            style: Theme.of(context).textTheme.headlineMedium,
+                          ),
+                          secondary: Icon(
+                            themeController.themeMode.value == ThemeMode.dark
+                                ? Icons.dark_mode
+                                : Icons.light_mode,
+                            color: MyColors.btnColor,
+                          ),
+                          value:
+                              themeController.themeMode.value == ThemeMode.dark,
+                          onChanged: (value) {
+                            themeController.toggleTheme();
+                          },
+                        ),
+                      ),
                       const SizedBox(height: 60),
                       ProfileMenuWidget(
                         title: "My orders",
@@ -144,6 +170,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Get.toNamed('/address');
                         },
                       ),
+
                       ProfileMenuWidget(
                         title: "Help Center",
                         icon: LineAwesomeIcons.headset,
@@ -176,7 +203,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ],
                   ),
-
                 ),
               ),
     );
