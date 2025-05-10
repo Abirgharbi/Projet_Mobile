@@ -23,7 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String customerName = '';
   String customerEmail = '';
   String customerImage = '';
-  bool isLoading = true; // To manage loading state
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -31,7 +31,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     checkToken();
   }
 
-  // This method checks if the token exists in SharedPreferences
   checkToken() async {
     String? updatedToken = await sharedPrefs.getPref('token');
     String? updatedCustomerName = await sharedPrefs.getPref('customerName');
@@ -39,15 +38,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     String? updatedCustomerImage = await sharedPrefs.getPref('customerImage');
     String? tok = await sharedPrefs.getPref('auth-token');
 
-    // Simulate a delay for the loading effect
     await Future.delayed(const Duration(seconds: 2));
 
     setState(() {
-      token = updatedToken ?? ''; // Set token to an empty string if null
+      token = updatedToken ?? '';
       customerName = updatedCustomerName ?? '';
       customerEmail = updatedCustomerEmail ?? 'No email';
       customerImage = updatedCustomerImage ?? '';
-      isLoading = false; // Stop loading after the data is fetched
+      isLoading = false;
     });
     print("Token: $tok");
   }
@@ -80,13 +78,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               )
               : customerName.isEmpty
-              ? const noLoggedIn_profilPage() // Show this if no token is found
+              ? const noLoggedIn_profilPage()
               : SingleChildScrollView(
                 child: Container(
                   padding: const EdgeInsets.all(tDefaultSize),
                   child: Column(
                     children: [
                       const SizedBox(height: 10),
+                      // Profile Picture
+                      Center(
+                        child: CircleAvatar(
+                          radius: 50,
+                          backgroundImage: NetworkImage(
+                            customerImage.isNotEmpty
+                                ? customerImage
+                                : 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww',
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+
                       Text(
                         customerName,
                         style: Theme.of(context).textTheme.displayMedium,
@@ -136,7 +147,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           },
                         ),
                       ),
-                      const SizedBox(height: 60),
+                      const SizedBox(height: 30),
                       ProfileMenuWidget(
                         title: "My orders",
                         icon: LineAwesomeIcons.dolly,
@@ -151,7 +162,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Get.toNamed('/address');
                         },
                       ),
-
                       ProfileMenuWidget(
                         title: "Help Center",
                         icon: LineAwesomeIcons.headset,

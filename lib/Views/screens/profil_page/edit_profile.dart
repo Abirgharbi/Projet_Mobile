@@ -57,7 +57,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                       child: ElevatedButton(
                         onPressed: () async {
                           await profileController.updateProfile();
-                          Get.toNamed('/profil');
+                          Get.toNamed('/landing');
                           Get.snackbar(
                             'Success',
                             'Profile Updated Successfully',
