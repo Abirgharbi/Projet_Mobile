@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class MyColors {
   static const Color titleTextColor = Color.fromARGB(255, 3, 3, 3);
-  static const Color btnColor = Color(0xffFF7742); 
+  static const Color btnColor = Color(0xffFF7742);
   static const Color btnBorderColor = Color(0xffFF7742);
   static const Color subTitleTextColor = Color(0xFF9593a8);
 
@@ -15,4 +15,5 @@ class MyColors {
   static Color textColor2 = const Color(0xff575969);
   static Color captionColor = const Color(0xffbcbabf);
   static Color buttonColor = const Color(0xfffe416c);
+  static const Color orange = Color(0xffFF7742); // Or another tone
 }

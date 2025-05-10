@@ -15,7 +15,6 @@ class ProfileController extends GetxController {
 
   @override
   void onInit() async {
-    // TODO: implement onInit
     super.onInit();
 
     // Fetch data from SharedPreferences and set text controllers
@@ -23,42 +22,30 @@ class ProfileController extends GetxController {
     phoneNumber.text = await sharedPrefs.getPref('customerPhoneNumber') ?? '';
   }
 
-  void updateProfile(String? imageUrl) async {
-    // Get customer email from SharedPreferences
+  Future<bool> updateProfile() async {
     final customerEmail = await sharedPrefs.getPref('customerEmail');
+    final id = await sharedPrefs.getPref('customerId');
 
-    // Create a new CustomerModel with the updated data
+    if (customerEmail == null || id == null) {
+      print("Missing email or ID in shared preferences.");
+      return false;
+    }
+
     CustomerModel customerModel = CustomerModel(
       name: name.text,
       email: customerEmail,
-      image: imageUrl, // Nullable image URL
+      image: null,
       phone: phoneNumber.text,
     );
 
-    // Fetch customer ID from SharedPreferences
-    final id = await sharedPrefs.getPref('customerId');
-
-    // Send a PUT request to update the profile on the server
     var response = await NetworkHandler.put(
       customerModelToJson(customerModel),
       "user/customer/update/$id",
     );
 
-    // Update SharedPreferences with the new data
     sharedPrefs.setPref('customerName', name.text);
-
-    // Check if imageUrl is not null before saving
-    if (imageUrl != null) {
-      sharedPrefs.setPref('customerImage', imageUrl); // Only set if not null
-    } else {
-      sharedPrefs.setPref(
-        'customerImage',
-        '',
-      );
-    }
-
     sharedPrefs.setPref('customerPhoneNumber', phoneNumber.text);
 
-
+    return true;
   }
 }

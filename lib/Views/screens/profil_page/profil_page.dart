@@ -86,25 +86,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   padding: const EdgeInsets.all(tDefaultSize),
                   child: Column(
                     children: [
-                      Stack(
-                        children: [
-                          customerImage.isNotEmpty
-                              ? SizedBox(
-                                height: 120,
-                                width: 120,
-                                child: ClipOval(
-                                  child: SizedBox.fromSize(
-                                    size: const Size.fromRadius(100),
-                                    child: Image.network(
-                                      customerImage,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              )
-                              : const SizedBox.shrink(),
-                        ],
-                      ),
                       const SizedBox(height: 10),
                       Text(
                         customerName,
