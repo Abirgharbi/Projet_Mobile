@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:projet_ecommerce_meuble/utils/shared_preferences.dart';
@@ -16,34 +15,37 @@ class ProfileController extends GetxController {
 
   @override
   void onInit() async {
-    // TODO: implement onInit
-
     super.onInit();
-    name.text = await sharedPrefs.getPref('customerName');
-    phoneNumber.text = await sharedPrefs.getPref('customerPhoneNumber');
 
-    
+    // Fetch data from SharedPreferences and set text controllers
+    name.text = await sharedPrefs.getPref('customerName') ?? '';
+    phoneNumber.text = await sharedPrefs.getPref('customerPhoneNumber') ?? '';
   }
 
-  void updateProfile(String? imageUrl) async {
-    final customerEmail = (await sharedPrefs.getPref('customerEmail'));
+  Future<bool> updateProfile() async {
+    final customerEmail = await sharedPrefs.getPref('customerEmail');
+    final id = await sharedPrefs.getPref('customerId');
+
+    if (customerEmail == null || id == null) {
+      print("Missing email or ID in shared preferences.");
+      return false;
+    }
+
     CustomerModel customerModel = CustomerModel(
-        name: name.text,
-        email: customerEmail,
-        image: imageUrl,
-        phone: phoneNumber.text);
-    print(customerModel);
+      name: name.text,
+      email: customerEmail,
+      image: null,
+      phone: phoneNumber.text,
+    );
 
-    final id = (await sharedPrefs.getPref('customerId'));
+    var response = await NetworkHandler.put(
+      customerModelToJson(customerModel),
+      "user/customer/update/$id",
+    );
 
-    print(id);
-
-    var response = NetworkHandler.put(
-        customerModelToJson(customerModel), "user/customer/update/$id");
     sharedPrefs.setPref('customerName', name.text);
-    sharedPrefs.setPref('customerImage', imageUrl!);
     sharedPrefs.setPref('customerPhoneNumber', phoneNumber.text);
-    //var data = json.decode(response);
-    // Get.to(() => ProfileScreen());
+
+    return true;
   }
 }

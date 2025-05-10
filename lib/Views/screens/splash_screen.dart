@@ -29,7 +29,8 @@ class SplashScreen extends StatelessWidget {
                 ),
               ),
             ),
-            Obx(() => AnimatedPositioned(
+            Obx(
+              () => AnimatedPositioned(
                 duration: const Duration(milliseconds: 800),
                 top: 100,
                 left: splashController.animate.value ? tDefaultSize : -80,
@@ -41,14 +42,17 @@ class SplashScreen extends StatelessWidget {
                     children: [
                       Center(
                         child: Text(
-                          "Welcome To ARkea",
+                          "Welcome To KOA Home",
                           style: Theme.of(context).textTheme.displaySmall,
                         ),
                       ),
                     ],
                   ),
-                ))),
-            Obx(() => AnimatedPositioned(
+                ),
+              ),
+            ),
+            Obx(
+              () => AnimatedPositioned(
                 duration: const Duration(milliseconds: 800),
                 bottom: splashController.animate.value ? 150 : 0,
                 left: 80,
@@ -56,25 +60,31 @@ class SplashScreen extends StatelessWidget {
                   duration: const Duration(milliseconds: 200),
                   opacity: splashController.animate.value ? 1 : 0,
                   child: const Image(
-                    image: AssetImage("assets/images/logofinal.png"),
+                    image: AssetImage("assets/images/logo_KOA.png"),
                     width: 300,
                   ),
-                ))),
-            Obx(() => AnimatedPositioned(
+                ),
+              ),
+            ),
+            Obx(
+              () => AnimatedPositioned(
                 duration: const Duration(milliseconds: 1200),
                 bottom: splashController.animate.value ? 40 : 0,
                 right: tDefaultSize,
                 child: AnimatedOpacity(
-                    duration: const Duration(milliseconds: 2000),
-                    opacity: splashController.animate.value ? 1 : 0,
-                    child: Container(
-                      width: tSplashContainerSize,
-                      height: tSplashContainerSize,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: const Color(0xffFF7742),
-                      ),
-                    ))))
+                  duration: const Duration(milliseconds: 2000),
+                  opacity: splashController.animate.value ? 1 : 0,
+                  child: Container(
+                    width: tSplashContainerSize,
+                    height: tSplashContainerSize,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      color: const Color(0xffFF7742),
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

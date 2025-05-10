@@ -113,7 +113,7 @@
 // }
 import 'dart:convert';
 
-// 
+
 const String baseUrl = "http://10.0.2.2:4002";
 
 ProductModel productModelFromJson(String str) =>

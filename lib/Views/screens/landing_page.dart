@@ -56,7 +56,7 @@ class _LandingPageState extends State<LandingPage> {
     const HomeScreen(),
     CartScreen(),
     const favorite(),
-   ProfileScreen()
+    ProfileScreen(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -73,21 +73,23 @@ class _LandingPageState extends State<LandingPage> {
           },
           activeColor: MyColors.btnBorderColor,
           tabBackgroundColor: Colors.grey.shade100,
-           tabs: [
-            const GButton(
-              icon: Icons.home,
-              text: "Home",
-            ),
+          tabs: [
+            const GButton(icon: Icons.home, text: "Home"),
             GButton(
-                icon: Icons.shopping_cart_outlined,
-                text: "Cart",
-                leading: Obx(
-                  () => orderController.productCarts.isEmpty
-                      ? const Icon(Icons.shopping_cart_outlined,
-                          color: MyColors.btnBorderColor)
-                      : badges.Badge(
+              icon: Icons.shopping_cart_outlined,
+              text: "Cart",
+              leading: Obx(
+                () =>
+                    orderController.productCarts.isEmpty
+                        ? const Icon(
+                          Icons.shopping_cart_outlined,
+                          color: MyColors.btnBorderColor,
+                        )
+                        : badges.Badge(
                           position: badges.BadgePosition.topStart(
-                              top: -12, start: -10),
+                            top: -12,
+                            start: -10,
+                          ),
                           badgeContent: Text(
                             orderController.productCarts.length.toString(),
                             style: const TextStyle(color: Colors.white),
@@ -98,20 +100,31 @@ class _LandingPageState extends State<LandingPage> {
                             padding: const EdgeInsets.all(5),
                             borderRadius: BorderRadius.circular(100),
                           ),
-                          child: const Icon(Icons.shopping_cart_outlined,
-                              color: MyColors.btnBorderColor),
+                          child: const Icon(
+                            Icons.shopping_cart_outlined,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
                         ),
-                )),
+              ),
+            ),
             GButton(
-                icon: Icons.favorite_border_outlined,
-                text: "Liked",
-                leading: Obx(
-                  () => productController.wishlist.isEmpty
-                      ? const Icon(Icons.favorite_border_outlined,
-                          color: MyColors.btnBorderColor)
-                      : badges.Badge(
+              icon: Icons.favorite_border_outlined,
+              text: "Liked",
+              iconColor: Colors.black,
+              textColor: Colors.black,
+
+              leading: Obx(
+                () =>
+                    productController.wishlist.isEmpty
+                        ? const Icon(
+                          Icons.favorite_border_outlined,
+                          color: MyColors.btnBorderColor,
+                        )
+                        : badges.Badge(
                           position: badges.BadgePosition.topStart(
-                              top: -12, start: -10),
+                            top: -12,
+                            start: -10,
+                          ),
                           badgeContent: Text(
                             productController.wishlist.length.toString(),
                             style: const TextStyle(color: Colors.white),
@@ -122,11 +135,14 @@ class _LandingPageState extends State<LandingPage> {
                             padding: const EdgeInsets.all(5),
                             borderRadius: BorderRadius.circular(100),
                           ),
-                          child: const Icon(Icons.favorite_border_outlined,
-                              color: MyColors.btnBorderColor),
+                          child: const Icon(
+                            Icons.favorite_border_outlined,
+                            color: MyColors.btnBorderColor,
+                          ),
                         ),
-                )),
-            const GButton(icon: Icons.person_outline, text: "Profile")
+              ),
+            ),
+            const GButton(icon: Icons.person_outline, text: "Profile"),
           ],
         ),
       ),

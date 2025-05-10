@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<uses-permission android:name="android.permission.INTERNET"/>
+
     <application
-        android:label="projet_ecommerce_meuble"
+        android:label="KOA Home"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -29,12 +31,10 @@
     <action android:name="android.intent.action.VIEW" />
     <category android:name="android.intent.category.DEFAULT" />
     <category android:name="android.intent.category.BROWSABLE" />
-    
+   <data android:scheme="myApp" android:host="KOA.com" />
+      <data android:scheme="http" android:host="KOA" />
 
-    <data
-        android:scheme="myApp"
-        android:host="KOA.com"
-        android:pathPrefix="/landing" />
+
 </intent-filter>
 
 
@@ -44,6 +44,9 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+            <meta-data
+    android:name="com.google.android.geo.API_KEY"
+    android:value="AIzaSyCLe-1wgWUUdYRMY1hCcoC91fgzenE-nGE"/>
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and
