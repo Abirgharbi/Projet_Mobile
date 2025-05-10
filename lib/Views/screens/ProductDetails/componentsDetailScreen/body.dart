@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:projet_ecommerce_meuble/Views/screens/ProductDetails/componentsDetailScreen/ArView.dart';
 
 import 'package:projet_ecommerce_meuble/utils/sizes.dart';
 import '../../../../Model/product_model.dart';
@@ -26,9 +25,7 @@ class Body extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          product.model != null
-              ? ArScreen(product: product)
-              : ProductImages(product: product),
+          ProductImages(product: product),
           TopRoundedContainer(
             color: Colors.white,
             child: Column(

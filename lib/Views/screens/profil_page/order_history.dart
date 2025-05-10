@@ -23,17 +23,8 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
   @override
   void initState() {
     super.initState();
-    // getCustomerOrders();
-  }
 
-  // getCustomerOrders() async {
-  //   String customerId = await sharedPrefs.getPref("customerId");
-  //   orders = await orderController.fetchOrders(customerId);
-  //   setState(() {
-  //     orders = orders;
-  //     fetching = false;
-  //   });
-  // }
+  }
 
   @override
   Widget build(BuildContext context) {

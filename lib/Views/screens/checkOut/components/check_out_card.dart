@@ -74,7 +74,7 @@ class CheckoutCard extends StatelessWidget {
                         elevation: 0,
                       ),
                       onPressed: () {
-                        orderController.checkAvailability();
+                       
                         Get.to(() => const PaymentCardForm());
                       },
                       child: Center(

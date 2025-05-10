@@ -57,10 +57,11 @@ class _ProductsByCategoryState extends State<ProductsByCategory> {
                 : GridView.builder(
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, // Number of columns
+                      crossAxisCount: 2, 
                       crossAxisSpacing: 16,
                       mainAxisSpacing: 16,
-                      childAspectRatio: 1,
+                      childAspectRatio: 0.80,
+
                     ),
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     itemCount: productByCategoryList!.length,

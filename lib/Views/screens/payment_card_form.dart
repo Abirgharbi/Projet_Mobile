@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../ViewModel/Payment_controller.dart';
-import '../../ViewModel/login_controller.dart';
-import '../../ViewModel/signup_controller.dart';
-import '../../utils/shared_preferences.dart';
-import '../widgets/app_bar.dart';
-import '../widgets/loading_button.dart';
+import 'package:projet_ecommerce_meuble/Views/widgets/app_bar.dart';
+import 'package:projet_ecommerce_meuble/Views/widgets/form_textfiled.dart';
+import 'package:projet_ecommerce_meuble/Views/widgets/loading_button.dart';
 
-final loginController = Get.put(LoginController());
-final signupController = Get.put(SignupScreenController());
+import '../../ViewModel/Payment_controller.dart';
+import '../../utils/sizes.dart';
+
 
 class PaymentCardForm extends StatefulWidget {
   const PaymentCardForm({super.key});
@@ -75,29 +73,41 @@ class PaymentCardFormState extends State<PaymentCardForm> {
             children: [
               const Text("Card Information", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               const SizedBox(height: 20),
-              _buildTextField(controller: cardHolderNameController, label: "Cardholder Name", validator: (v) => v!.isEmpty ? "Required" : null),
-              const SizedBox(height: 12),
-              _buildTextField(
-                controller: cardNumberController,
-                label: "Card Number",
-                keyboardType: TextInputType.number,
-                validator: (v) => v!.length != 16 ? "Must be 16 digits" : null,
+
+              FormTextFiled(
+                controller: cardHolderNameController,
+                label: "Cardholder Name",
+                hintText: "Name LastName",
+                validator: (v) => v!.isEmpty ? "Required" : null,
               ),
               const SizedBox(height: 12),
-              _buildTextField(
+
+              FormTextFiled(
+                controller: cardNumberController,
+                label: "Card Number",
+                hintText: "1234 5678 9012 3456",
+                typeInput: TextInputType.number,
+                validator: (v) => v!.replaceAll(' ', '').length != 16 ? "Must be 16 digits" : null,
+              ),
+              const SizedBox(height: 12),
+
+              FormTextFiled(
                 controller: expiryDateController,
                 label: "Expiry Date (MM/YY)",
+                hintText: "08/25",
                 validator: (v) => v!.isEmpty ? "Enter expiry date" : null,
               ),
               const SizedBox(height: 12),
-              _buildTextField(
+
+              FormTextFiled(
                 controller: cvvController,
                 label: "CVV",
-                keyboardType: TextInputType.number,
-                obscureText: true,
+                hintText: "123",
+                typeInput: TextInputType.number,
                 validator: (v) => v!.length != 3 ? "Must be 3 digits" : null,
               ),
               const SizedBox(height: 30),
+
               LoadingButton(
                 onPressed: isFormValid ? handlePayment : null,
                 text: 'Pay',
@@ -105,30 +115,6 @@ class PaymentCardFormState extends State<PaymentCardForm> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String label,
-    TextInputType keyboardType = TextInputType.text,
-    String? Function(String?)? validator,
-    bool obscureText = false,
-  }) {
-    return TextFormField(
-      controller: controller,
-      obscureText: obscureText,
-      keyboardType: keyboardType,
-      validator: validator,
-      decoration: InputDecoration(
-        labelText: label,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-        focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.deepPurple),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       ),
     );
   }

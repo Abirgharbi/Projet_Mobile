@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:projet_ecommerce_meuble/Views/screens/Home/filter_page.dart';
-
 import '../../Model/product_model.dart';
 import '../../utils/colors.dart';
 import '../screens/Home/home_page.dart';
